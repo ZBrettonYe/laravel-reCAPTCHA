@@ -1,7 +1,7 @@
 {
     "name": "misechow/no-captcha",
-    "description": "No CAPTCHA reCAPTCHA For Laravel.",
-    "keywords": ["misechow", "recaptcha", "no-captcha", "captcha", "laravel", "laravel4", "laravel5"],
+    "description": "No CAPTCHA reCAPTCHA For Laravel5.",
+    "keywords": ["misechow", "recaptcha", "no-captcha", "captcha", "laravel", "laravel5"],
     "license": "MIT",
     "authors": [
         {
