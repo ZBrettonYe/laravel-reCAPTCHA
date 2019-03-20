@@ -1,5 +1,5 @@
 > 采用了 anhskohbo 的 package，在此基础上添加后台获取Google secret、sitekey 方法，可不从env获取。
-> 更改 Google 源为 www.recaptcha.net；可通过GFW。
+> 更改 Google 源为 www.recaptcha.net,  可通过GFW的封闭。
 >
 > 在此特别感谢 anhskohbo；
 > 
