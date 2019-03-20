@@ -38,12 +38,12 @@ class NoCaptchaServiceProvider extends ServiceProvider
      */
     protected function bootConfig()
     {
-        $path = __DIR__.'/config/googleCaptcha.php';
+        $path = __DIR__.'/config/captcha.php';
 
         $this->mergeConfigFrom($path, 'captcha');
 
         if (function_exists('config_path')) {
-            $this->publishes([$path => config_path('captcha.php')]);
+            $this->publishes([$path => config_path('reCaptcha.php')]);
         }
     }
 
