@@ -38,9 +38,9 @@ class NoCaptchaServiceProvider extends ServiceProvider
      */
     protected function bootConfig()
     {
-        $path = __DIR__.'/config/captcha.php';
+        $path = __DIR__.'/config/config.php';
 
-        $this->mergeConfigFrom($path, 'captcha');
+        $this->mergeConfigFrom($path, 'reCaptcha');
 
         if (function_exists('config_path')) {
             $this->publishes([$path => config_path('reCaptcha.php')]);
@@ -53,7 +53,7 @@ class NoCaptchaServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('captcha', function ($app) {
-            if ($app['config']['captcha.server-get-config']) {
+            if ($app['config']['reCaptcha.server-get-config']) {
                 $googleCaptcha = \App\Components\CaptchaVerify::googleCaptchaGetConfig();
                 return new NoCaptcha(
                     $googleCaptcha['secret'],
@@ -62,9 +62,9 @@ class NoCaptchaServiceProvider extends ServiceProvider
                 );
             } else {
                 return new NoCaptcha(
-                    $app['config']['captcha.secret'],
-                    $app['config']['captcha.sitekey'],
-                    $app['config']['captcha.options']
+                    $app['config']['reCaptcha.secret'],
+                    $app['config']['reCaptcha.sitekey'],
+                    $app['config']['reCaptcha.options']
                 );
             }
         });
