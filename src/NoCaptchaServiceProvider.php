@@ -22,13 +22,13 @@ class NoCaptchaServiceProvider extends ServiceProvider
 
         $this->bootConfig();
 
-        $app['validator']->extend('captcha', function ($attribute, $value) use ($app) {
-            return $app['captcha']->verifyResponse($value, $app['request']->getClientIp());
+        $app['validator']->extend('NoCaptcha', function ($attribute, $value) use ($app) {
+            return $app['NoCaptcha']->verifyResponse($value, $app['request']->getClientIp());
         });
 
         if ($app->bound('form')) {
-            $app['form']->macro('captcha', function ($attributes = []) use ($app) {
-                return $app['captcha']->display($attributes, $app->getLocale());
+            $app['form']->macro('NoCaptcha', function ($attributes = []) use ($app) {
+                return $app['NoCaptcha']->display($attributes, $app->getLocale());
             });
         }
     }
@@ -40,10 +40,10 @@ class NoCaptchaServiceProvider extends ServiceProvider
     {
         $path = __DIR__.'/config/config.php';
 
-        $this->mergeConfigFrom($path, 'reCaptcha');
+        $this->mergeConfigFrom($path, 'NoCaptcha');
 
         if (function_exists('config_path')) {
-            $this->publishes([$path => config_path('reCaptcha.php')]);
+            $this->publishes([$path => config_path('NoCaptcha.php')]);
         }
     }
 
@@ -52,8 +52,8 @@ class NoCaptchaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('captcha', function ($app) {
-            if ($app['config']['reCaptcha.server-get-config']) {
+        $this->app->singleton('NoCaptcha', function ($app) {
+            if ($app['config']['NoCaptcha.server-get-config']) {
                 $googleCaptcha = \App\Components\CaptchaVerify::googleCaptchaGetConfig();
                 return new NoCaptcha(
                     $googleCaptcha['secret'],
@@ -62,9 +62,9 @@ class NoCaptchaServiceProvider extends ServiceProvider
                 );
             } else {
                 return new NoCaptcha(
-                    $app['config']['reCaptcha.secret'],
-                    $app['config']['reCaptcha.sitekey'],
-                    $app['config']['reCaptcha.options']
+                    $app['config']['NoCaptcha.secret'],
+                    $app['config']['NoCaptcha.sitekey'],
+                    $app['config']['NoCaptcha.options']
                 );
             }
         });
@@ -77,6 +77,6 @@ class NoCaptchaServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['captcha'];
+        return ['NoCaptcha'];
     }
 }
