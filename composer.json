@@ -21,15 +21,5 @@
         "psr-4": {
             "Misechow\\NoCaptcha\\": "src/"
         }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Misechow\\NoCaptcha\\NoCaptchaServiceProvider"
-            ],
-            "aliases": {
-                "NoCaptcha": "Misechow\\NoCaptcha\\Facades\\NoCaptcha"
-            }
-        }
     }
 }
