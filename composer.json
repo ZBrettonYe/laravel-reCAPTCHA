@@ -1,25 +1,35 @@
 {
-    "name": "misechow/no-captcha",
-    "description": "No CAPTCHA reCAPTCHA For Laravel5.",
-    "keywords": ["misechow", "recaptcha", "no-captcha", "captcha", "laravel", "laravel5"],
+    "name": "zbrettonye/no-captcha",
+    "description": "No CAPTCHA reCAPTCHA For Laravel.",
+    "keywords": ["recaptcha", "no-captcha", "captcha", "laravel", "laravel4", "laravel5", "laravel6"],
     "license": "MIT",
     "authors": [
         {
-            "name": "misechow",
-            "email": "mise3uc@gmail.com"
+            "name": "zbrettonye",
+            "email": "monkeyblacktech97@gmail.com"
         }
     ],
     "require": {
         "php": ">=5.5.5",
-        "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*",
-        "guzzlehttp/guzzle": "^6.2"
+        "illuminate/support": "^5.0|^6.0|^7.0",
+        "guzzlehttp/guzzle": "^6.2|^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.8"
     },
     "autoload": {
         "psr-4": {
-            "Misechow\\NoCaptcha\\": "src/"
+            "ZBrettonYe\\NoCaptcha\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ZBrettonYe\\NoCaptcha\\NoCaptchaServiceProvider"
+            ],
+            "aliases": {
+                "NoCaptcha": "ZBrettonYe\\NoCaptcha\\Facades\\NoCaptcha"
+            }
         }
     }
 }

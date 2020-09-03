@@ -1,6 +1,6 @@
 <?php
 
-namespace Misechow\NoCaptcha\Facades;
+namespace ZBrettonYe\NoCaptcha\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

@@ -1,6 +1,6 @@
 <?php
 
-use Misechow\NoCaptcha\NoCaptcha;
+use ZBrettonYe\NoCaptcha\NoCaptcha;
 
 class NoCaptchaTest extends PHPUnit_Framework_TestCase
 {
@@ -13,6 +13,11 @@ class NoCaptchaTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->captcha = new NoCaptcha('{secret-key}', '{site-key}');
+    }
+
+    public function testRequestShouldWorks()
+    {
+        $response = $this->captcha->verifyResponse('should_false');
     }
 
     public function testJsLink()

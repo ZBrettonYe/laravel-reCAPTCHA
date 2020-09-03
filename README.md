@@ -20,31 +20,33 @@ No CAPTCHA reCAPTCHA
 ## Installation
 
 ```
-composer require misechow/no-captcha
+composer require zbrettonye/no-captcha
 ```
 
 ## Laravel 5 and above
 
 ### Setup
 
+**_NOTE_** This package supports the auto-discovery feature of Laravel 5.5 and above, So skip these `Setup` instructions if you're using Laravel 5.5 and above.
+
 In `app/config/app.php` add the following :
 
 1- The ServiceProvider to the providers array :
 
 ```php
-Misechow\NoCaptcha\NoCaptchaServiceProvider::class,
+ZBrettonYe\NoCaptcha\NoCaptchaServiceProvider::class,
 ```
 
 2- The class alias to the aliases array :
 
 ```php
-'NoCaptcha' => Misechow\NoCaptcha\Facades\NoCaptcha::class,
+'NoCaptcha' => ZBrettonYe\NoCaptcha\Facades\NoCaptcha::class,
 ```
 
 3- Publish the config file
 
 ```ssh
-php artisan vendor:publish --provider="Misechow\NoCaptcha\NoCaptchaServiceProvider"
+php artisan vendor:publish --provider="ZBrettonYe\NoCaptcha\NoCaptchaServiceProvider"
 ```
 
 ### Configuration
@@ -179,7 +181,7 @@ require_once "vendor/autoload.php";
 
 $secret  = 'CAPTCHA-SECRET';
 $sitekey = 'CAPTCHA-SITEKEY';
-$captcha = new \Misechow\NoCaptcha\NoCaptcha($secret, $sitekey);
+$captcha = new \ZBrettonYe\NoCaptcha\NoCaptcha($secret, $sitekey);
 
 if (! empty($_POST)) {
     var_dump($captcha->verifyResponse($_POST['g-recaptcha-response']));
