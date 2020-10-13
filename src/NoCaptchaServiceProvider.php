@@ -2,6 +2,7 @@
 
 namespace ZBrettonYe\NoCaptcha;
 
+use App\Components\CaptchaVerify;
 use Illuminate\Support\ServiceProvider;
 
 class NoCaptchaServiceProvider extends ServiceProvider
@@ -54,19 +55,20 @@ class NoCaptchaServiceProvider extends ServiceProvider
     {
         $this->app->singleton('NoCaptcha', function ($app) {
             if ($app['config']['NoCaptcha.server-get-config']) {
-                $googleCaptcha = \App\Components\CaptchaVerify::googleCaptchaGetConfig();
+                $googleCaptcha = CaptchaVerify::googleCaptchaGetConfig();
+
                 return new NoCaptcha(
                     $googleCaptcha['secret'],
                     $googleCaptcha['sitekey'],
                     $googleCaptcha['options']
                 );
-            } else {
-                return new NoCaptcha(
-                    $app['config']['NoCaptcha.secret'],
-                    $app['config']['NoCaptcha.sitekey'],
-                    $app['config']['NoCaptcha.options']
-                );
             }
+
+            return new NoCaptcha(
+                $app['config']['NoCaptcha.secret'],
+                $app['config']['NoCaptcha.sitekey'],
+                $app['config']['NoCaptcha.options']
+            );
         });
     }
 
