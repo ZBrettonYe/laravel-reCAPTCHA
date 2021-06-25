@@ -25,7 +25,7 @@ class NoCaptcha
     protected $sitekey;
 
     /**
-     * @var Client
+     * @var \GuzzleHttp\Client
      */
     protected $http;
 
@@ -34,15 +34,8 @@ class NoCaptcha
      *
      * @var array
      */
-    protected $verifiedResponses = '';
+    protected $verifiedResponses = [];
 
-    /**
-     * NoCaptcha.
-     *
-     * @param  string  $secret
-     * @param  string  $sitekey
-     * @param  array  $options
-     */
     public function __construct($secret, $sitekey, $options = [])
     {
         $this->secret = $secret;
@@ -50,41 +43,24 @@ class NoCaptcha
         $this->http = new Client($options);
     }
 
-    /**
-     * @param  array  $attributes
-     * @return string
-     * @see display()
-     */
-    public function displayWidget($attributes = [])
+    public function displayWidget(array $attributes = []): string
     {
         return $this->display($attributes);
     }
 
-    /**
-     * Render HTML captcha.
-     *
-     * @param  array  $attributes
-     *
-     * @return string
-     */
-    public function display($attributes = [])
+    // Render HTML captcha.
+    public function display($attributes = []): string
     {
         $attributes = $this->prepareAttributes($attributes);
 
         return '<div'.$this->buildAttributes($attributes).'></div>';
     }
 
-    /**
-     * Prepare HTML attributes and assure that the correct classes and attributes for captcha are inserted.
-     *
-     * @param  array  $attributes
-     *
-     * @return array
-     */
-    protected function prepareAttributes(array $attributes)
+    // Prepare HTML attributes and assure that the correct classes and attributes for captcha are inserted.
+    protected function prepareAttributes(array $attributes): array
     {
         $attributes['data-sitekey'] = $this->sitekey;
-        if (!isset($attributes['class'])) {
+        if (! isset($attributes['class'])) {
             $attributes['class'] = '';
         }
         $attributes['class'] = trim('g-recaptcha '.$attributes['class']);
@@ -92,14 +68,8 @@ class NoCaptcha
         return $attributes;
     }
 
-    /**
-     * Build HTML attributes.
-     *
-     * @param  array  $attributes
-     *
-     * @return string
-     */
-    protected function buildAttributes(array $attributes)
+    // Build HTML attributes.
+    protected function buildAttributes(array $attributes): string
     {
         $html = [];
 
@@ -119,10 +89,10 @@ class NoCaptcha
      *
      * @return string
      */
-    public function displaySubmit($formIdentifier, $text = 'submit', $attributes = [])
+    public function displaySubmit(string $formIdentifier, string $text = 'submit', array $attributes = []): string
     {
         $javascript = '';
-        if (!isset($attributes['data-callback'])) {
+        if (! isset($attributes['data-callback'])) {
             $functionName = 'onSubmit'.str_replace(['-', '=', '\'', '"', '<', '>', '`'], '', $formIdentifier);
             $attributes['data-callback'] = $functionName;
             $javascript = sprintf(
@@ -139,28 +109,14 @@ class NoCaptcha
         return $button.$javascript;
     }
 
-    /**
-     * Render js source
-     *
-     * @param  null  $lang
-     * @param  bool  $callback
-     * @param  string  $onLoadClass
-     * @return string
-     */
-    public function renderJs($lang = null, $callback = false, $onLoadClass = 'onloadCallBack')
+    // Render js source
+    public function renderJs(string $lang = null, bool $callback = false, string $onLoadClass = 'onloadCallBack'): string
     {
         return '<script src="'.$this->getJsLink($lang, $callback, $onLoadClass).'" async defer></script>'."\n";
     }
 
-    /**
-     * Get recaptcha js link.
-     *
-     * @param  string|null  $lang
-     * @param  boolean  $callback
-     * @param  string  $onLoadClass
-     * @return string
-     */
-    public function getJsLink($lang = null, $callback = false, $onLoadClass = 'onloadCallBack')
+    // Get recaptcha js link.
+    public function getJsLink(string $lang = null, bool $callback = false, string $onLoadClass = 'onloadCallBack'): string
     {
         $client_api = static::CLIENT_API;
         $params = [];
@@ -171,24 +127,14 @@ class NoCaptcha
         return $client_api.'?'.http_build_query($params);
     }
 
-    /**
-     * @param $params
-     * @param $onLoadClass
-     */
     protected function setCallBackParams(&$params, $onLoadClass)
     {
         $params['render'] = 'explicit';
         $params['onload'] = $onLoadClass;
     }
 
-    /**
-     * Verify no-captcha response by Symfony Request.
-     *
-     * @param  Request  $request
-     *
-     * @return bool
-     */
-    public function verifyRequest(Request $request)
+    // Verify no-captcha response by Symfony Request.
+    public function verifyRequest(Request $request): bool
     {
         return $this->verifyResponse(
             $request->get('g-recaptcha-response'),
@@ -196,15 +142,8 @@ class NoCaptcha
         );
     }
 
-    /**
-     * Verify no-captcha response.
-     *
-     * @param  string  $response
-     * @param  string|null  $clientIp
-     *
-     * @return bool
-     */
-    public function verifyResponse($response, $clientIp = null)
+    // Verify no-captcha response.
+    public function verifyResponse(string $response, string $clientIp = null): bool
     {
         if (empty($response)) {
             return false;
@@ -224,7 +163,7 @@ class NoCaptcha
         if (isset($verifyResponse['success']) && $verifyResponse['success'] === true) {
             // A response can only be verified once from google, so we need to
             // cache it to make it work in case we want to verify it multiple times.
-            $this->verifiedResponses = $response;
+            $this->verifiedResponses[] = $response;
 
             return true;
         }
@@ -232,14 +171,8 @@ class NoCaptcha
         return false;
     }
 
-    /**
-     * Send verify request.
-     *
-     * @param  array  $query
-     *
-     * @return array
-     */
-    protected function sendRequestVerify(array $query = [])
+    // Send verify request.
+    protected function sendRequestVerify(array $query = []): array
     {
         $response = $this->http->request('POST', static::VERIFY_URL, [
             'form_params' => $query,
