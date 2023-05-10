@@ -15,26 +15,26 @@ class NoCaptcha
      *
      * @var string
      */
-    protected $secret;
+    private $secret;
 
     /**
      * The recaptcha sitekey key.
      *
      * @var string
      */
-    protected $sitekey;
+    private $sitekey;
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
-    protected $http;
+    private $http;
 
     /**
      * The cached verified responses.
      *
      * @var array
      */
-    protected $verifiedResponses = [];
+    private $verifiedResponses = [];
 
     public function __construct($secret, $sitekey, $options = [])
     {
@@ -127,7 +127,7 @@ class NoCaptcha
         return $client_api.'?'.http_build_query($params);
     }
 
-    protected function setCallBackParams(&$params, $onLoadClass)
+    protected function setCallBackParams(&$params, $onLoadClass): void
     {
         $params['render'] = 'explicit';
         $params['onload'] = $onLoadClass;
