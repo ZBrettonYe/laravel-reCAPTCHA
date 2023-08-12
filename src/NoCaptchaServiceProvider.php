@@ -2,7 +2,6 @@
 
 namespace ZBrettonYe\NoCaptcha;
 
-use App\Components\CaptchaVerify;
 use Illuminate\Support\ServiceProvider;
 
 class NoCaptchaServiceProvider extends ServiceProvider
@@ -39,7 +38,7 @@ class NoCaptchaServiceProvider extends ServiceProvider
      */
     protected function bootConfig(): void
     {
-        $path = __DIR__.'/config/config.php';
+        $path = __DIR__.'/config/recaptcha.php';
 
         $this->mergeConfigFrom($path, 'NoCaptcha');
 
@@ -54,8 +53,8 @@ class NoCaptchaServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('NoCaptcha', function ($app) {
-            if ($app['config']['NoCaptcha.server-get-config']) {
-                $googleCaptcha = CaptchaVerify::googleCaptchaGetConfig();
+            if ($app['config']['NoCaptcha.get_config_method']) {
+                $googleCaptcha = \App\Components\CaptchaVerify::googleCaptchaGetConfig();
 
                 return new NoCaptcha(
                     $googleCaptcha['secret'],
@@ -70,6 +69,8 @@ class NoCaptchaServiceProvider extends ServiceProvider
                 $app['config']['NoCaptcha.options']
             );
         });
+
+        $this->app->alias('NoCaptcha', NoCaptcha::class);
     }
 
     /**

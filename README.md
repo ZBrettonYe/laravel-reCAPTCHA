@@ -7,15 +7,18 @@
 No CAPTCHA reCAPTCHA
 ==========
 
-[![Build Status](https://travis-ci.org/anhskohbo/no-captcha.svg?branch=master&style=flat-square)](https://travis-ci.org/anhskohbo/no-captcha)
-[![Latest Stable Version](https://poser.pugx.org/anhskohbo/no-captcha/v/stable)](https://packagist.org/packages/anhskohbo/no-captcha)
-[![Total Downloads](https://poser.pugx.org/anhskohbo/no-captcha/downloads)](https://packagist.org/packages/anhskohbo/no-captcha)
-[![Latest Unstable Version](https://poser.pugx.org/anhskohbo/no-captcha/v/unstable)](https://packagist.org/packages/anhskohbo/no-captcha)
-[![License](https://poser.pugx.org/anhskohbo/no-captcha/license)](https://packagist.org/packages/anhskohbo/no-captcha)
+[//]: # ([![Build Status]&#40;https://travis-ci.org/anhskohbo/no-captcha.svg?branch=master&style=flat-square&#41;]&#40;https://travis-ci.org/anhskohbo/no-captcha&#41;)
 
-![recaptcha_anchor 2x](https://cloud.githubusercontent.com/assets/1529454/5291635/1c426412-7b88-11e4-8d16-46161a081ece.gif)
+[//]: # ([![Latest Stable Version]&#40;https://poser.pugx.org/anhskohbo/no-captcha/v/stable&#41;]&#40;https://packagist.org/packages/anhskohbo/no-captcha&#41;)
 
-> For Laravel 4 use [v1](https://github.com/anhskohbo/no-captcha/tree/v1) branch.
+[//]: # ([![Total Downloads]&#40;https://poser.pugx.org/anhskohbo/no-captcha/downloads&#41;]&#40;https://packagist.org/packages/anhskohbo/no-captcha&#41;)
+
+[//]: # ([![Latest Unstable Version]&#40;https://poser.pugx.org/anhskohbo/no-captcha/v/unstable&#41;]&#40;https://packagist.org/packages/anhskohbo/no-captcha&#41;)
+
+[//]: # ([![License]&#40;https://poser.pugx.org/anhskohbo/no-captcha/license&#41;]&#40;https://packagist.org/packages/anhskohbo/no-captcha&#41;)
+
+[//]: # ()
+[//]: # (![recaptcha_anchor 2x]&#40;https://cloud.githubusercontent.com/assets/1529454/5291635/1c426412-7b88-11e4-8d16-46161a081ece.gif&#41;)
 
 ## Installation
 
@@ -51,7 +54,16 @@ php artisan vendor:publish --provider="ZBrettonYe\NoCaptcha\NoCaptchaServiceProv
 
 ### Configuration
 
-Add `NOCAPTCHA_SECRET` and `NOCAPTCHA_SITEKEY` in **.env** file :
+#### Add the following to **.env** file
+
+| key                 | Required | Type   | note              | note                                                                                      |
+|:--------------------|:--------:|:-------|:------------------|:------------------------------------------------------------------------------------------|
+| NOCAPTCHA_SECRET    |    Y     | string |                   | Secret                                                                                    |
+| NOCAPTCHA_SITEKEY   |    Y     | string |                   | Site Key                                                                                  |
+| NOCAPTCHA_CONFIG    |    N     | bool   | false             | Method to get config                                                                      |
+| NOCAPTCHA_OPTIONS   |    N     | array  | ['timeout' => 30] | HTTP Options                                                                              |
+| NOCAPTCHA_SCORE     |    N     | bool   | false             | V3 feature, enable incorporate the score as a verification factor.                        |
+| NOCAPTCHA_THRESHOLD |    N     | float  | 0.7               | once NOCAPTCHA_SCORE is enabled. Any requests above this score will be considered as spam |
 
 ```
 NOCAPTCHA_SECRET=secret-key

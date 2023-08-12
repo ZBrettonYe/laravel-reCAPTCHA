@@ -3,6 +3,8 @@
 namespace ZBrettonYe\NoCaptcha;
 
 use GuzzleHttp\Client;
+use http\Exception\RuntimeException;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\Request;
 
 class NoCaptcha
@@ -155,12 +157,25 @@ class NoCaptcha
         }
 
         $verifyResponse = $this->sendRequestVerify([
-            'secret'   => $this->secret,
+            'secret' => $this->secret,
             'response' => $response,
             'remoteip' => $clientIp,
         ]);
 
         if (isset($verifyResponse['success']) && $verifyResponse['success'] === true) {
+            // Check score if it's enabled.
+            $isScoreVerificationEnabled = Config::get('NoCaptcha.score_verification', false);
+
+            if ($isScoreVerificationEnabled) {
+                if (! array_key_exists('score', $verifyResponse)) {
+                    throw new RuntimeException('Score Verification is an exclusive Enterprise feature! Moreover, make sure you are sending the remoteip in your request payload!');
+                }
+
+                if ($verifyResponse['score'] > Config::get('NoCaptcha.score_threshold', 0.7)) {
+                    return false;
+                }
+            }
+
             // A response can only be verified once from google, so we need to
             // cache it to make it work in case we want to verify it multiple times.
             $this->verifiedResponses[] = $response;
